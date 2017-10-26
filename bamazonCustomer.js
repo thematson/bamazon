@@ -1,4 +1,4 @@
-var mysql = require("mysql");
+const mysql = require("mysql");
 var inquirer = require("inquirer");
 var colors = require('colors');
 
