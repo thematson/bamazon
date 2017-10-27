@@ -14,13 +14,16 @@ var connection = mysql.createConnection({
     password: "",
     database: "bamazon"
 });
-
+function connectionIsMade(){
 connection.connect(function(err) {
     if (err) throw err;
-    console.log("connected as id " + connection.threadId);
+    // console.log("connected as id " + connection.threadId);
     userOrder();
 });
-
+}
+function orderAgain(){
+    userOrder();
+}
 
 function userOrder() {
     inquirer.prompt([
@@ -72,36 +75,17 @@ function userOrder() {
                 ],
                 function(err, res){
                     if (err) throw err;
-                    connection.end();
+                    orderAgain();
                 });
-                // fulfillOrder();
             } else {
                 console.log("There is insufficient stock".red);
-                userOrder();
-            }
-            
-        }        
-      );
-      console.log(query.sql); 
+                orderAgain();
+                }
+        });
+        
+    //   console.log(query.sql); 
 });
-// connection.end();
 
 }
 
-// function fulfillOrder(){
-//     console.log('function called');
-//     connection.query('UPDATE products SET ? WHERE ?',
-//         [
-//             {
-//                 stock_quantity: stockQuantity - orderQuantity
-//             },
-//             {
-//                 item_id: userOrder.item_id
-//             }
-//         ],
-//         function(err, res){
-//             if (err) throw err;
-
-//         });
-
-// }
+connectionIsMade();
